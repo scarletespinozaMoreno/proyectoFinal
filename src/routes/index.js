@@ -1,3 +1,4 @@
+const axios = require("axios");
 const express = require ( 'express' );
 const router=express.Router();
 
@@ -48,5 +49,39 @@ router.get('/contacto', (req, res)=>{
     res.render('contacto.html',{title: 'Página quienes somos' });
 });
 
+router.get('/registrate', (req, res)=>{
+
+    res.render('registrate.html',{title: 'Página de registro' });
+});
+
+if (typeof (document) !== "undefined") {
+    document.getElementById("submit").addEventListener("click",function(){
+        let strCorreo=document.getElementById("correo").nodeValue;
+        let strNombre= document.getElementById("nombres").nodeValue;
+        let strApellido= document.getElementById("apellidos").nodeValue;
+        let strMensaje= document.getElementById("mensaje").nodeValue;
+        if(strCorreo !="" && strNombre !="" && strApellido != ""){
+               let datos ={
+                   c: strCorreo,
+                   n: strNombre,
+                   a:strcApellido,
+                   m: strMensaje
+   
+               };
+               axios.post('/api/contacto',dato).then(function(response){
+                   document.getElementById("correo").nodeValue=" ";
+                   document.getElementById("nombres").nodeValue=" ";
+                   document.getElementById("apellidos").nodeValue=" ";
+                   document.getElementById("mensaje").nodeValue=" ";
+                   alert("gracias por escribirnos en breve nos contactaremos contigo");
+               }).catch(function(error){
+                   console.log(error);
+               });
+        }else{
+            alert("Por favor llenar");
+        }
+   
+   });
+ }
 
 module.exports=router;
